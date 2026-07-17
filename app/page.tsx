@@ -277,7 +277,7 @@ export default function Home() {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="px-10 py-20 max-w-2xl mx-auto">
+      <section  className="px-10 py-20 max-w-2xl mx-auto">
         <h2 className="text-3xl font-bold mb-6">Contact Me</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -396,6 +396,7 @@ export default function Home() {
                 <p className="text-gray-600">Hubungi Langsung:</p>
 
                 <a
+                  id="contact"
                   href="mailto:fauzanbayu123@gmail.com"
                   className="font-semibold hover:text-blue-600"
                 >
