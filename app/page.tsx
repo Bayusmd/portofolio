@@ -49,7 +49,7 @@ export default function Home() {
           <a href="#contact" className="hover:text-blue-500">Contact</a>
         </div>
 
-        <a href="#contact" className="bg-blue-600 px-5 py-2 rounded-lg hover:bg-blue-700">
+        <a href="mailto:fauzanbayu123@gmail.com" className="bg-blue-600 px-5 py-2 rounded-lg hover:bg-blue-700">
           Contact Me
         </a>
       </nav>
@@ -85,10 +85,10 @@ export default function Home() {
           <p className="text-gray-500 text-sm mb-2">// developer profile</p>
           <pre className="text-sm text-blue-400">
 {`const developer = {
-  name: "Fauzan Bayu",
+  name: "Fauzan Bayu Samudra",
   role: "Fullstack Developer",
   location: "Indonesia",
-  stack: ["Next.js", "Laravel", "Android"]
+  stack: ["Next.js", "Laravel", "Android Studio"]
 }`}
           </pre>
         </motion.div>
