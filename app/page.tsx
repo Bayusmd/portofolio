@@ -69,7 +69,8 @@ export default function Home() {
             <a href="#projects" className="bg-blue-600 px-6 py-3 rounded-lg hover:bg-blue-700">
               Lihat Project
             </a>
-            <a href="#" className="border border-gray-600 px-6 py-3 rounded-lg hover:border-blue-500">
+            <a href="/cv/Fauzan-Bayu-Samudra-CV.pdf"
+              download="Fauzan-Bayu-Samudra-CV.pdf" className="border border-gray-600 px-6 py-3 rounded-lg hover:border-blue-500">
               Download CV
             </a>
           </div>
