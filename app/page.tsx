@@ -233,7 +233,7 @@ export default function Home() {
             <div className="p-4">
               <h3 className="font-bold">Website Booking Futsal</h3>
               <p className="text-gray-400 text-sm">Building a Laravel-based Website</p>
-              <a href="https://paseban.karanganyarkab.go.id" target="_blank" className="text-blue-500 text-sm">Kunjungi</a>
+              <a href="https://github.com/Bayusmd/web-booking-futsal" target="_blank" className="text-blue-500 text-sm">View Repository</a>
             </div>
           </motion.div>
 
