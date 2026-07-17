@@ -243,7 +243,7 @@ export default function Home() {
             <div className="p-4">
               <h3 className="font-bold">Website Management Outlet</h3>
               <p className="text-gray-400 text-sm">Building a Website Management Outlet</p>
-              <a href="https://paseban.karanganyarkab.go.id" target="_blank" className="text-blue-500 text-sm">Kunjungi</a>
+              <a href="https://github.com/Bayusmd/Ginastel-Management-App" target="_blank" className="text-blue-500 text-sm">View Repository</a>
             </div>
           </motion.div>
 
@@ -293,7 +293,7 @@ export default function Home() {
      
 
 
-      <footer className="bg-gray text-white-800 mt-24">
+      <footer className="bg-blue text-white-800 mt-24">
         <div className="max-w-7xl mx-auto px-6 py-16">
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
@@ -375,7 +375,7 @@ export default function Home() {
                 </a>
 
                 <a
-                  href="https://github.com/USERNAME"
+                  href="https://github.com/Bayusmd"
                   target="_blank"
                   className="w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-900 hover:text-white transition-all duration-300"
                 >
@@ -383,7 +383,7 @@ export default function Home() {
                 </a>
 
                 <a
-                  href="https://instagram.com/USERNAME"
+                  href="https://instagram.com/bayu.sm_"
                   target="_blank"
                   className="w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center hover:bg-pink-500 hover:text-white transition-all duration-300"
                 >
