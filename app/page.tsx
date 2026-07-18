@@ -291,7 +291,7 @@ export default function Home() {
         
               {/* Title */}
               <h2 className="text-4xl md:text-6xl font-bold text-white leading-tight">
-                Let's build something
+                Let's  <span className="text-blue-500">build</span> something
                 <br />
                 great.
               </h2>
@@ -300,25 +300,23 @@ export default function Home() {
               <div className="mt-10">
                 <a
                   href="mailto:your@email.com"
-                  className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-black font-medium transition-all duration-300 hover:scale-105 hover:bg-zinc-200"
+                  className="inline-flex items-center gap-2 rounded-xl bg-Blue-600 px-6 py-3 text-black font-medium transition-all duration-300 hover:scale-105 hover:bg-zinc-200"
                 >
                   <FaMailBulk size={20} />
                   Get In Touch
                 </a>
               </div>
         
-              {/* Local Time */}
-              <div className="mt-10">
-                <p className="text-sm text-zinc-500">
-                  Local Time
-                </p>
-        
-                <p className="text-white mt-1 font-medium">
+              {/* Local Time */}  
+              <div className="mt-10 flex items-center justify-center gap-2 text-sm">
+                <span className="text-zinc-500">Local Time</span>
+                <span className="text-zinc-600">•</span>
+                <span className="font-medium text-white">
                   {new Date().toLocaleTimeString("id-ID", {
                     hour: "2-digit",
                     minute: "2-digit",
                   })}
-                </p>
+                </span>
               </div>
             </div>
           </section>
