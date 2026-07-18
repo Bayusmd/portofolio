@@ -300,7 +300,7 @@ export default function Home() {
               <div className="mt-10">
                 <a
                   href="mailto:your@email.com"
-                  className="inline-flex items-center gap-2 rounded-xl bg-Blue-600 px-6 py-3 text-black font-medium transition-all duration-300 hover:scale-105 hover:bg-zinc-200"
+                  className="inline-flex items-center gap-2 rounded-xl bg-Blue px-6 py-3 text-black font-medium transition-all duration-300 hover:scale-105 hover:bg-zinc-200"
                 >
                   <FaMailBulk size={20} />
                   Get In Touch
