@@ -8,6 +8,7 @@ import {
   FaLinkedinIn,
   FaGithub,
   FaInstagram,
+  FaMailBulk,
 } from "react-icons/fa";
 
 
@@ -276,17 +277,55 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact */}
-      <section  className="px-10 py-20 max-w-2xl mx-auto">
-        <h2 className="text-3xl font-bold mb-6">Contact Me</h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input name="name" placeholder="Nama" className="w-full p-3 rounded bg-gray-900 border border-gray-700" onChange={handleChange} />
-          <input name="email" placeholder="Email" className="w-full p-3 rounded bg-gray-900 border border-gray-700" onChange={handleChange} />
-          <textarea name="message" placeholder="Pesan" className="w-full p-3 rounded bg-gray-900 border border-gray-700" onChange={handleChange} />
-          <button className="bg-blue-600 px-6 py-2 rounded-lg hover:bg-blue-700">Kirim</button>
-        </form>
-      </section>
+       {/* Contacts */}
+          <section
+            id="contact"
+            className="py-28 px-6 border-t border-zinc-800"
+          >
+            <div className="max-w-4xl mx-auto text-center">
+              {/* Subtitle */}
+              <p className="text-zinc-400 text-lg mb-4">
+                Have a project in mind?
+              </p>
+        
+              {/* Title */}
+              <h2 className="text-4xl md:text-6xl font-bold text-white leading-tight">
+                Let's build something
+                <br />
+                great.
+              </h2>
+        
+              {/* Button */}
+              <div className="mt-10">
+                <a
+                  href="mailto:your@email.com"
+                  className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-black font-medium transition-all duration-300 hover:scale-105 hover:bg-zinc-200"
+                >
+                  <FaMailBulk size={20} />
+                  Get In Touch
+                </a>
+              </div>
+        
+              {/* Local Time */}
+              <div className="mt-10">
+                <p className="text-sm text-zinc-500">
+                  Local Time
+                </p>
+        
+                <p className="text-white mt-1 font-medium">
+                  {new Date().toLocaleTimeString("id-ID", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
+              </div>
+            </div>
+          </section>
+       
+      
+
+
 
      
      
@@ -396,7 +435,7 @@ export default function Home() {
                 <p className="text-gray-600">Hubungi Langsung:</p>
 
                 <a
-                  id="contact"
+                 
                   href="mailto:fauzanbayu123@gmail.com"
                   className="font-semibold hover:text-blue-600"
                 >
