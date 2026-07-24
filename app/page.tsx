@@ -253,7 +253,7 @@ export default function Home() {
             <div className="p-4">
               <h3 className="font-bold">KuisKuy Aplication</h3>
               <p className="text-gray-400 text-sm">Mobile App</p>
-              <a href="#" className="text-blue-500 text-sm">Detail</a>
+              <a href="https://github.com/Bayusmd/quizapp" className="text-blue-500 text-sm">View Repository</a>
             </div>
            </motion.div>
 
