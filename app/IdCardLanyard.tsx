@@ -1,69 +1,135 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect } from "react";
+import {
+  animate,
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import Image from "next/image";
 
+// Ukuran area & titik-titik penting (satuan px)
+const W = 420; // lebar area
+const H = 640; // tinggi area
+const ANCHOR = { x: 340, y: -60 }; // titik tali menempel di atas (kanan atas, di luar area)
+const CLIP = { x: W / 2, y: 120 }; // titik tali bertemu klip kartu (posisi awal)
+
 export default function IdCardLanyard() {
+  // Posisi drag kartu
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  // Efek masuk: kartu jatuh dari atas layar lalu memantul (spring)
+  useEffect(() => {
+    animate(y, 0, { type: "spring", stiffness: 70, damping: 7, mass: 1.2 });
+  }, [y]);
+
+  // Rotasi mengikuti arah tarikan, seperti bandul yang berayun
+  const rotateRaw = useTransform(x, [-200, 200], [-28, 28]);
+  const rotate = useSpring(rotateRaw, { stiffness: 110, damping: 7, mass: 0.9 });
+
+  // Tali selalu tersambung dari titik anchor ke klip kartu saat kartu digeser
+  const x2 = useTransform(x, (v) => CLIP.x + v);
+  const y2 = useTransform(y, (v) => CLIP.y + v);
+  const pathD = useTransform(
+    [x, y] as const,
+    ([vx, vy]: number[]) =>
+      `M ${CLIP.x + vx} ${CLIP.y + vy} L ${ANCHOR.x} ${ANCHOR.y}`
+  );
+
   return (
-    <div className="relative w-full h-[580px] flex justify-center items-start overflow-visible">
-      {/* 
-        Membungkus keseluruhan (Tali diagonal + Klip + Kartu ID) 
-        - Efek masuk: Meluncur/jatuh dari atas layar dengan pegas yang memantul mulus.
-        - Fitur drag: Bisa ditarik dan digeser bebas ke segala arah.
-      */}
+    <div
+      className="relative mx-auto select-none"
+      style={{ width: W, height: H }}
+    >
+      {/* Tali lanyard hitam + tulisan "ID CARD" mengikuti arah tali */}
+      <svg
+        className="pointer-events-none absolute inset-0 z-10 overflow-visible"
+        width={W}
+        height={H}
+        viewBox={`0 0 ${W} ${H}`}
+        fill="none"
+      >
+        <defs>
+          <motion.path id="lanyard-path" d={pathD} />
+        </defs>
+
+        {/* Badan tali */}
+        <motion.line
+          x1={ANCHOR.x}
+          y1={ANCHOR.y}
+          x2={x2}
+          y2={y2}
+          stroke="#0a0a0a"
+          strokeWidth={16}
+          strokeLinecap="butt"
+        />
+        {/* Garis tepi tipis agar tali terlihat di background gelap */}
+        <motion.line
+          x1={ANCHOR.x}
+          y1={ANCHOR.y}
+          x2={x2}
+          y2={y2}
+          stroke="#2a2a2a"
+          strokeWidth={17}
+          strokeLinecap="butt"
+          style={{ mixBlendMode: "lighten" }}
+          opacity={0.35}
+        />
+
+        {/* Teks di tali */}
+        <text
+          fill="#e5e5e5"
+          fontSize={7}
+          fontFamily="ui-monospace, monospace"
+          letterSpacing={3}
+          dy={2.5}
+        >
+          <textPath href="#lanyard-path" startOffset="18%">
+            ID CARD &nbsp;&nbsp;&nbsp;&nbsp; ID CARD &nbsp;&nbsp;&nbsp;&nbsp; ID CARD
+          </textPath>
+        </text>
+      </svg>
+
+      {/* Kartu yang bisa ditarik; saat dilepas kembali ke posisi gantung & berayun */}
       <motion.div
         drag
-        dragConstraints={{ top: -40, bottom: 80, left: -70, right: 70 }}
-        dragElastic={0.25}
+        dragSnapToOrigin
+        dragElastic={0.35}
+        dragMomentum={false}
+        dragTransition={{ bounceStiffness: 140, bounceDamping: 8 }}
         whileTap={{ cursor: "grabbing" }}
-        initial={{ y: -450, opacity: 0, rotate: -15 }}
-        animate={{ y: 0, opacity: 1, rotate: 0 }}
-        transition={{
-          type: "spring",
-          stiffness: 80,
-          damping: 10,
-          mass: 1.1,
+        style={{
+          x,
+          y,
+          rotate,
+          transformOrigin: "50% 0%", // berayun dari titik klip di atas kartu
+          left: CLIP.x - 110,
+          top: CLIP.y,
         }}
-        className="relative flex flex-col items-center cursor-grab select-none z-30 pt-32"
+        className="absolute z-20 cursor-grab touch-none"
       >
-        {/* Tali Lanyard Diagonal (Menyambung rapi dari sudut kanan atas menuju ke klip kartu) */}
-        <div className="absolute -top-24 right-3 w-[3px] h-[210px] bg-gradient-to-b from-zinc-700 via-zinc-500 to-zinc-400 rotate-[32deg] origin-bottom z-10 flex items-center justify-center shadow-md">
-          <span className="text-[9px] tracking-[0.35em] text-zinc-300 font-mono uppercase -rotate-90 whitespace-nowrap opacity-90 select-none">
-            ID CARD
-          </span>
-        </div>
+        {/* Strap kecil / klip penghubung tali ke kartu */}
+        <div className="absolute -top-3 left-1/2 z-10 h-6 w-4 -translate-x-1/2 rounded-sm bg-neutral-950 ring-1 ring-neutral-700" />
 
-        {/* Klip Besi / Gantungan Penghubung Utama */}
-        <div className="relative z-20 flex flex-col items-center mb-1">
-          <div className="w-4 h-4 border-2 border-zinc-400 rounded-full bg-zinc-800 shadow-md"></div>
-          <div className="w-6 h-5 bg-gradient-to-b from-zinc-300 to-zinc-600 rounded-md shadow-md border border-zinc-500 -mt-1"></div>
-        </div>
+        {/* Kartu: frame putih rounded dengan foto hitam-putih */}
+        <div className="relative h-[300px] w-[220px] rounded-2xl bg-white p-2.5 shadow-[0_25px_60px_rgba(0,0,0,0.8)]">
+          {/* Lubang gantungan */}
+          <div className="absolute left-1/2 top-1 h-1.5 w-8 -translate-x-1/2 rounded-full bg-neutral-300" />
 
-        {/* Kartu ID Utama */}
-        <div className="w-64 bg-zinc-900 border border-zinc-700/80 rounded-3xl p-3.5 shadow-[0_30px_70px_rgba(0,0,0,0.95)] backdrop-blur-md">
-          {/* Notch / Speaker atas ala kartu/ponsel modern */}
-          <div className="w-12 h-1.5 bg-zinc-800 rounded-full mx-auto mb-3"></div>
-
-          {/* Frame Foto (Hitam putih estetik, berubah berwarna saat di-hover) */}
-          <div className="relative w-full h-72 rounded-2xl overflow-hidden bg-zinc-800 border border-zinc-700/50 shadow-inner">
+          <div className="relative h-full w-full overflow-hidden rounded-lg bg-neutral-900">
             <Image
-              src="/bayu.jpeg" // Pastikan foto Anda ada di folder public/bayu.jpeg
-              alt="Fauzan Bayu"
+              src="/rifqi.jpeg" // taruh foto kamu di public/rifqi.jpeg
+              alt="Rifqi Muhammad Aliya"
               fill
-              className="object-cover grayscale hover:grayscale-0 transition-all duration-500 pointer-events-none"
               priority
+              draggable={false}
+              className="pointer-events-none object-cover grayscale"
             />
-            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none"></div>
-          </div>
-
-          {/* Informasi Nama & Role */}
-          <div className="mt-3.5 text-center pb-1">
-            <h3 className="font-bold text-sm text-white tracking-wide">
-              Fauzan Bayu Samudra
-            </h3>
-            <p className="text-[11px] text-blue-400 font-mono tracking-widest mt-0.5 uppercase">
-              Fullstack Developer
-            </p>
+            {/* Kilau cahaya diagonal halus */}
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-white/15 to-transparent" />
           </div>
         </div>
       </motion.div>
