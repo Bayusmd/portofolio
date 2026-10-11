@@ -124,14 +124,20 @@ const certificatesData = [
 
 const techStackData = [
   { name: "Laravel", icon: "/tech/laravel.png" },
+  { name: "Figma", icon: "/tech/figma.png" },        
+  { name: "WordPress", icon: "/tech/wordpress.png" },
+  { name: "Android Studio", icon: "/tech/android.png" },
   { name: "Next.js", icon: "/tech/nextjs.png" },
+  { name: "react.js", icon: "/tech/react.png" },
   { name: "TypeScript", icon: "/tech/typescript.png" },
+  { name: "Pyhton", icon: "/tech/pyhton.png" },       
+  { name: "Bootstrap css", icon: "/tech/bootstrap.png" },
   { name: "Tailwind CSS", icon: "/tech/tailwind.png" },
   { name: "PHP", icon: "/tech/php.png" },
   { name: "MySQL", icon: "/tech/mysql.png" },
-  { name: "Android Studio", icon: "/tech/android.png" },
-  { name: "Figma", icon: "/tech/figma.png" },
-  { name: "WordPress", icon: "/tech/wordpress.png" },
+  
+  
+  
 ];
 
 export default function Home() {
