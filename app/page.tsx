@@ -259,10 +259,10 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* Bagian Kanan: ID Card Interaktif yang Bisa Digeser */}
-          <div className="hidden md:block">
-            <IdCardLanyard />
-          </div>
+          {/* Komponen ID Card Lanyard Interaktif */}
+            <div className="hidden md:flex justify-center items-center h-full">
+              <IdCardLanyard />
+            </div>
         </section>
 
         {/* ABOUT & EDUCATION */}
