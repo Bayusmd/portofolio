@@ -126,7 +126,7 @@ export default function IdCardLanyard() {
               fill
               priority
               draggable={false}
-              className="pointer-events-none object-cover grayscale"
+              className="pointer-events-none object-cover "
             />
             {/* Kilau cahaya diagonal halus */}
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-white/15 to-transparent" />

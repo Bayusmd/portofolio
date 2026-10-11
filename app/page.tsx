@@ -227,6 +227,7 @@ export default function Home() {
           </div>
 
           <div className="hidden md:flex gap-6 text-sm text-gray-400">
+            <a href="#home" className="hover:text-blue-500 transition">Home</a>
             <a href="#about" className="hover:text-blue-500 transition">About</a>
             <a href="#showcase" className="hover:text-blue-500 transition">Portfolio</a>
             <a href="#contact" className="hover:text-blue-500 transition">Contact</a>
@@ -238,9 +239,9 @@ export default function Home() {
         </nav>
 
         {/* Hero */}
-        <section className="grid md:grid-cols-2 items-center px-10 py-20">
+        <section id="home" className="grid md:grid-cols-2 items-center px-10 py-20">
           <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }}>
-            <p className="text-blue-500 text-sm mb-2 font-semibold">JUNIOR FULLSTACK WEB DEVELOPER</p>
+            <p className="text-blue-500 text-sm mb-2 font-semibold">FULLSTACK WEB DEVELOPER</p>
             <h1 className="text-5xl md:text-6xl font-bold leading-tight">
               <span className="text-blue-500">Fauzan</span> Bayu <span className="text-blue-500">Samudra</span>
             </h1>
@@ -274,7 +275,7 @@ export default function Home() {
             <p className="text-gray-400 mb-4 leading-relaxed">
               Saya lulusan S1 Teknik Informatika dari Universitas Muhammadiyah Surakarta dengan keahlian 
               pengembangan sistem digital berbasis web dan dukungan IT. Saya adalah 
-              seorang <b>Junior Full Stack Web Developer</b> yang fokus pada pembuatan 
+              seorang <b> Full Stack Web Developer</b> yang fokus pada pembuatan 
               aplikasi modern dari frontend hingga backend.
             </p>
 
