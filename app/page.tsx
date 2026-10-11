@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, FormEvent, ChangeEvent } from "react";
+import { useState, useEffect, FormEvent, ChangeEvent } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
   FaLinkedinIn,
@@ -11,13 +11,20 @@ import {
   FaMailBulk,
 } from "react-icons/fa";
 
-
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(true);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+
+  // Simulasi durasi loading (misal: 2 detik / 2000ms)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const subject = `Pesan dari ${form.name}`;
     const body = `Nama: ${form.name}\nEmail: ${form.email}\nPesan: ${form.message}`;
 
@@ -33,67 +40,118 @@ export default function Home() {
   };
 
   return (
-    <main className="bg-black text-white">
-      {/* Navbar */}
-      <nav className="flex justify-between items-center px-10 py-6 border-b border-gray-800">
-        <div className="flex items-center gap-3">
-          <Image src="/profile.jpg" width={40} height={40} className="rounded-full" alt="" />
-          <div>
-            <h1 className="font-bold">Fauzan Bayu Samudra</h1>
-            <p className="text-xs text-blue-500">PORTOFOLIO</p>
+    <>
+      {/* Loading & Welcome Screen */}
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black text-white"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
+              className="flex items-center gap-3 mb-4"
+            >
+              <Image src="/profile.jpg" width={60} height={60} className="rounded-full border-2 border-blue-500" alt="Logo" />
+            </motion.div>
+            
+            <motion.h1
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="text-2xl md:text-3xl font-bold tracking-wider"
+            >
+              Selamat Datang di <span className="text-blue-500">Portofolio Saya</span>
+            </motion.h1>
+            
+            <motion.p
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+              className="text-sm text-gray-400 mt-2"
+            >
+              Fauzan Bayu Samudra • Fullstack Developer
+            </motion.p>
+
+            {/* Indikator Loading Bar */}
+            <div className="w-48 h-1 bg-gray-800 rounded-full mt-6 overflow-hidden">
+              <motion.div
+                initial={{ x: "-100%" }}
+                animate={{ x: "0%" }}
+                transition={{ duration: 1.8, ease: "easeInOut" }}
+                className="h-full bg-blue-500 w-full"
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Konten Utama Portofolio */}
+      <main className="bg-black text-white">
+        {/* Navbar */}
+        <nav className="flex justify-between items-center px-10 py-6 border-b border-gray-800">
+          <div className="flex items-center gap-3">
+            <Image src="/profile.jpg" width={40} height={40} className="rounded-full" alt="" />
+            <div>
+              <h1 className="font-bold">Fauzan Bayu Samudra</h1>
+              <p className="text-xs text-blue-500">PORTOFOLIO</p>
+            </div>
           </div>
-        </div>
 
-        <div className="hidden md:flex gap-6 text-sm text-gray-400">
-          <a href="#about" className="hover:text-blue-500">About</a>
-          <a href="#projects" className="hover:text-blue-500">Projects</a>
-          <a href="#contact" className="hover:text-blue-500">Contact</a>
-        </div>
-
-        <a href="mailto:fauzanbayu123@gmail.com" className="bg-blue-600 px-5 py-2 rounded-lg hover:bg-blue-700">
-          Contact Me
-        </a>
-      </nav>
-
-      {/* Hero */}
-      <section className="grid md:grid-cols-2 items-center px-10 py-20">
-        <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }}>
-          <p className="text-white-500 text-sm mb-2">JUNIOR FULLSTACK WEB DEVELOPER</p>
-          <h1 className="text-5xl md:text-6xl font-bold leading-tight">
-            <span className="text-blue-500">Fauzan</span> Bayu <span className="text-blue-500">Samudra</span>
-          </h1>
-          <p className="mt-4 text-gray-400 max-w-md">
-            Saya seorang web developer yang fokus pada performa, desain modern, dan hasil nyata.
-          </p>
-
-          <div className="mt-6 flex gap-4">
-            <a href="#projects" className="bg-blue-600 px-6 py-3 rounded-lg hover:bg-blue-700">
-              Lihat Project
-            </a>
-            <a href="/cv/Fauzan-Bayu-Samudra-CV.pdf"
-              download="Fauzan-Bayu-Samudra-CV.pdf" className="border border-gray-600 px-6 py-3 rounded-lg hover:border-blue-500">
-              Download CV
-            </a>
+          <div className="hidden md:flex gap-6 text-sm text-gray-400">
+            <a href="#about" className="hover:text-blue-500">About</a>
+            <a href="#projects" className="hover:text-blue-500">Projects</a>
+            <a href="#contact" className="hover:text-blue-500">Contact</a>
           </div>
-        </motion.div>
 
-        {/* Code Card */}
-        <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="bg-gray-900 border border-gray-800 rounded-xl p-6 mt-10 md:mt-0"
-        >
-          <p className="text-gray-500 text-sm mb-2">// developer profile</p>
-          <pre className="text-sm text-blue-400">
+          <a href="mailto:fauzanbayu123@gmail.com" className="bg-blue-600 px-5 py-2 rounded-lg hover:bg-blue-700">
+            Contact Me
+          </a>
+        </nav>
+
+        {/* Hero */}
+        <section className="grid md:grid-cols-2 items-center px-10 py-20">
+          <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }}>
+            <p className="text-blue-500 text-sm mb-2">JUNIOR FULLSTACK WEB DEVELOPER</p>
+            <h1 className="text-5xl md:text-6xl font-bold leading-tight">
+              <span className="text-blue-500">Fauzan</span> Bayu <span className="text-blue-500">Samudra</span>
+            </h1>
+            <p className="mt-4 text-gray-400 max-w-md">
+              Saya seorang web developer yang fokus pada performa, desain modern, dan hasil nyata.
+            </p>
+
+            <div className="mt-6 flex gap-4">
+              <a href="#projects" className="bg-blue-600 px-6 py-3 rounded-lg hover:bg-blue-700">
+                Lihat Project
+              </a>
+              <a href="/cv/Fauzan-Bayu-Samudra-CV.pdf"
+                download="Fauzan-Bayu-Samudra-CV.pdf" className="border border-gray-600 px-6 py-3 rounded-lg hover:border-blue-500">
+                Download CV
+              </a>
+            </div>
+          </motion.div>
+
+          {/* Code Card */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="bg-gray-900 border border-gray-800 rounded-xl p-6 mt-10 md:mt-0"
+          >
+            <p className="text-gray-500 text-sm mb-2">// developer profile</p>
+            <pre className="text-sm text-blue-400">
 {`const developer = {
   name: "Fauzan Bayu Samudra",
   role: "Fullstack Developer",
   location: "Indonesia",
   stack: ["Next.js", "Laravel", "Android Studio"]
 }`}
-          </pre>
-        </motion.div>
-      </section>
+            </pre>
+          </motion.div>
+        </section>
 
       {/* ABOUT */}
       <section id="about" className="px-10 py-20 grid md:grid-cols-2 gap-10 items-center">
