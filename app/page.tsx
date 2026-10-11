@@ -14,7 +14,24 @@ import {
   FaTimes,
 } from "react-icons/fa";
 
-// Data dummy untuk Projects, Certificates, dan Tech Stack
+// Data dummy untuk workexperience Projects, Certificates, dan Tech Stack
+const workExperiences = [
+  {
+    role: "Full-stack Web Developer Intern (Intership)",
+    company: "Dinas Komunikasi Dan Informatika Kabupaten Karanganyar",
+    period: "Feb 2025 - Apr 2025",
+    logo: "/work/diskominfo.png", // Letakkan gambar logo di folder public/
+    description: "Mengembangkan dan memelihara sistem informasi desa berbasis WordPress dan fullstack web, mencakup perancangan UI/UX responsif, integrasi API, serta optimasi kinerja sistem.",
+  },
+  {
+    role: "Freelance Web Developer",
+    company: "-",
+    period: "2024 - Present",
+    logo: "/work/freelance.png", // Letakkan gambar logo di folder public/
+    description: "Mengembangkan berbagai aplikasi web kustom untuk klien menggunakan stack seperti Laravel,React.js, Next.js, SQL, Dan Wordpress sesuai kebutuhan bisnis",
+  },
+];
+
 const projectsData = [
   {
     id: "desa-lemahbang",
@@ -319,19 +336,43 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Work Experience Sub-section (Diletakkan di bawah Pendidikan) */}
-            <h3 className="text-xl font-bold mt-10 mb-4 text-gray-200">Work Experience</h3>
+            {/* Work Experience Sub-section */}
+            <h3 className="text-xl font-bold mt-10 mb-4 text-gray-200">Pengalaman Kerja</h3>
             <div className="space-y-4">
-              <div className="p-4 rounded-lg bg-gradient-to-r from-blue-600/20 to-transparent border border-blue-500/30 flex justify-between items-center">
-                <div>
-                  <h4 className="font-bold text-sm md:text-base">Web Developer Intern / Freelance</h4>
-                  <p className="text-xs md:text-sm text-blue-400">PT Cakrawala Global Yaksa / Proyek Desa</p>
-                  <p className="text-xs text-gray-400 mt-1">Mengembangkan website profil desa & manajemen aplikasi menggunakan Laravel & WordPress.</p>
+              {workExperiences.map((exp, idx) => (
+                <div
+                  key={idx}
+                  className="p-4 rounded-lg bg-gradient-to-r from-blue-600/20 to-transparent border border-blue-500/30 flex justify-between items-center"
+                >
+                  {/* KIRI: Logo & Detail */}
+                  <div className="flex items-center gap-4">
+                    {/* Logo Tempat Kerja */}
+                    <div className="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-800 shadow-md shrink-0">
+                      <Image
+                        src={exp.logo}
+                        alt={`Logo ${exp.company}`}
+                        width={36}
+                        height={36}
+                        className="object-contain"
+                      />
+                    </div>
+              
+                    {/* Text Role & Perusahaan */}
+                    <div>
+                      <h4 className="font-bold text-sm md:text-base">{exp.role}</h4>
+                      <p className="text-xs md:text-sm text-gray-400">{exp.company}</p>
+                      <p className="text-xs text-gray-500 mt-1 hidden md:block">
+                        {exp.description}
+                      </p>
+                    </div>
+                  </div>
+              
+                  {/* KANAN: Periode */}
+                  <div className="text-right whitespace-nowrap ml-4">
+                    <p className="text-blue-500 font-bold text-sm">{exp.period}</p>
+                  </div>
                 </div>
-                <div className="text-right whitespace-nowrap ml-4">
-                  <p className="text-blue-500 font-bold text-sm">2024 - Present</p>
-                </div>
-              </div>
+              ))}
             </div>
 
           </motion.div>
@@ -503,7 +544,7 @@ export default function Home() {
               ))}
             </motion.div>
           )}
-          
+
         </section>
 
         {/* MODAL POPUP UNTUK SERTIFIKAT */}
