@@ -611,6 +611,7 @@ export default function Home() {
               <div>
                 <h3 className="font-semibold tracking-widest text-white uppercase text-sm mb-6">Navigasi</h3>
                 <ul className="space-y-3 text-sm">
+                  <li><Link href="#home" className="hover:text-blue-600 transition">Home</Link></li>
                   <li><Link href="#about" className="hover:text-blue-600 transition">About</Link></li>
                   <li><Link href="#showcase" className="hover:text-blue-600 transition">Portfolio</Link></li>
                   <li><Link href="#contact" className="hover:text-blue-600 transition">Contact</Link></li>
@@ -630,13 +631,13 @@ export default function Home() {
               <div>
                 <h3 className="font-semibold tracking-widest text-white uppercase text-sm mb-6">Social Media</h3>
                 <div className="flex gap-4">
-                  <a href="https://linkedin.com/in/USERNAME" target="_blank" className="w-10 h-10 rounded-full border border-gray-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition">
+                  <a href="www.linkedin.com/in/fauzan-bayu-samudra-3061a1440" target="_blank" className="w-10 h-10 rounded-full border border-gray-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition">
                     <FaLinkedinIn size={16} />
                   </a>
                   <a href="https://github.com/Bayusmd" target="_blank" className="w-10 h-10 rounded-full border border-gray-800 flex items-center justify-center hover:bg-gray-800 hover:text-white transition">
                     <FaGithub size={16} />
                   </a>
-                  <a href="https://instagram.com/bayu.sm_" target="_blank" className="w-10 h-10 rounded-full border border-gray-800 flex items-center justify-center hover:bg-pink-600 hover:text-white transition">
+                  <a href="https://www.instagram.com/bayu_samudra.id" target="_blank" className="w-10 h-10 rounded-full border border-gray-800 flex items-center justify-center hover:bg-pink-600 hover:text-white transition">
                     <FaInstagram size={16} />
                   </a>
                 </div>
