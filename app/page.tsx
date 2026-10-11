@@ -130,7 +130,7 @@ const techStackData = [
   { name: "Next.js", icon: "/tech/nextjs.png" },
   { name: "react.js", icon: "/tech/react.png" },
   { name: "TypeScript", icon: "/tech/typescript.png" },
-  { name: "Pyhton", icon: "/tech/pyhton.png" },       
+  { name: "Python", icon: "/tech/python.png" },       
   { name: "Bootstrap css", icon: "/tech/bootstrap.png" },
   { name: "Tailwind CSS", icon: "/tech/tailwind.png" },
   { name: "PHP", icon: "/tech/php.png" },
