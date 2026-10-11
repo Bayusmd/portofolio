@@ -41,8 +41,8 @@ const projectsData = [
     image: "/project1.png",
     webLink: "https://lemahbangdesa.smartsense.my.id",
     repoLink: "#",
-    techs: ["Laravel", "Tailwind CSS", "MySQL"],
-    features: ["Profil Desa", "Manajemen Surat Administrasi", "Berita Desa & Pengumuman"]
+    techs: ["Laravel", "Tailwind CSS", "MySQL", "RestAPI"],
+    features: ["Profil Desa", "Manajemen Surat Administrasi", "Berita Desa & Pengumuman", "Notifikasi Wa otomatis untuk permohonan surat"]
   },
   {
     id: "desa-paseban",
@@ -52,7 +52,7 @@ const projectsData = [
     image: "/project3.png",
     webLink: "https://paseban.karanganyarkab.go.id",
     repoLink: "#",
-    techs: ["WordPress", "Elementor", "PHP"],
+    techs: ["WordPress", "Elementor", "Divibuilder"],
     features: ["Informasi Publik", "Struktur Organisasi", "Transparansi Anggaran"]
   },
   {
@@ -448,17 +448,30 @@ export default function Home() {
           {/* HALAMAN DETAIL PROJECT (Muncul saat salah satu project diklik) */}
           {activeTab === "projects" && selectedProject && (
             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="max-w-4xl mx-auto bg-gray-900 border border-gray-800 rounded-2xl p-8 shadow-2xl">
+              {/* Tombol Back */}
               <button
                 onClick={() => setSelectedProject(null)}
                 className="text-blue-400 hover:text-blue-300 font-medium mb-6 flex items-center gap-2 text-sm"
               >
                 ← Back to Projects
               </button>
-
-              <h2 className="text-3xl font-bold mb-4">{selectedProject.title}</h2>
+          
+              {/* Judul & Deskripsi */}
+              <h2 className="text-3xl font-bold mb-2">{selectedProject.title}</h2>
               <p className="text-gray-400 text-base mb-6 leading-relaxed">{selectedProject.desc}</p>
-
-              {/* Grid Kotak Info Fitur & Teknologi (Meniru Gambar Referensi) */}
+          
+              {/* GAMBAR PREVIEW PROJECT (Ditambahkan di bawah deskripsi judul) */}
+              <div className="relative w-full h-[320px] md:h-[420px] rounded-xl overflow-hidden border border-gray-800 mb-8 shadow-lg">
+                <Image 
+                  src={selectedProject.image} 
+                  alt={selectedProject.title} 
+                  fill 
+                  className="object-cover" 
+                  priority
+                />
+              </div>
+          
+              {/* Grid Kotak Info Fitur & Teknologi */}
               <div className="grid md:grid-cols-2 gap-4 mb-8">
                 <div className="bg-black/40 border border-gray-800 p-5 rounded-xl">
                   <div className="flex items-center gap-2 text-blue-400 font-semibold mb-2">
@@ -472,7 +485,7 @@ export default function Home() {
                     ))}
                   </div>
                 </div>
-
+                  
                 <div className="bg-black/40 border border-gray-800 p-5 rounded-xl">
                   <div className="flex items-center gap-2 text-blue-400 font-semibold mb-2">
                     ✨ Key Features
@@ -484,7 +497,7 @@ export default function Home() {
                   </ul>
                 </div>
               </div>
-
+                  
               {/* Link Tombol Eksternal */}
               <div className="flex gap-4 flex-wrap">
                 {selectedProject.webLink ? (
@@ -495,7 +508,7 @@ export default function Home() {
                   <span className="bg-zinc-800 text-gray-500 px-5 py-2.5 rounded-xl text-sm font-medium cursor-not-allowed">No Live Link</span>
                 )}
 
-                {selectedProject.repoLink !== "#" ? (
+                {selectedProject.repoLink && selectedProject.repoLink !== "#" ? (
                   <a href={selectedProject.repoLink} target="_blank" rel="noopener noreferrer" className="border border-gray-700 hover:border-blue-500 px-5 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 transition">
                     <FaGithub size={16} /> View Repository
                   </a>
