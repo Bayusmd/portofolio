@@ -4,6 +4,8 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Fauzan Bayu Samudra",
   description: "Website portofolio pribadi",
+   icons: {
+    icon: "/logo.png",},
 };
 
 export default function RootLayout({
