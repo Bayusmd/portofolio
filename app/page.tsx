@@ -13,6 +13,7 @@ import {
   FaCode,
   FaTimes,
 } from "react-icons/fa";
+import IdCardLanyard from "./IdCardLanyard";
 
 // Data dummy untuk workexperience Projects, Certificates, dan Tech Stack
 const workExperiences = [
@@ -40,7 +41,7 @@ const projectsData = [
     desc: "Building a Laravel-based Website for village profile and administration.",
     image: "/project1.png",
     webLink: "https://lemahbangdesa.smartsense.my.id",
-    repoLink: "#",
+    repoLink: "https://github.com/Bayusmd/Website-Desa",
     techs: ["Laravel", "Tailwind CSS", "MySQL", "RestAPI"],
     features: ["Profil Desa", "Manajemen Surat Administrasi", "Berita Desa & Pengumuman", "Notifikasi Wa otomatis untuk permohonan surat"]
   },
@@ -258,21 +259,10 @@ export default function Home() {
             </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="bg-gray-900 border border-gray-800 rounded-xl p-6 mt-10 md:mt-0 shadow-2xl"
-          >
-            <p className="text-gray-500 text-sm mb-2">// developer profile</p>
-            <pre className="text-sm text-blue-400 overflow-x-auto">
-{`const developer = {
-  name: "Fauzan Bayu Samudra",
-  role: "Fullstack Developer",
-  location: "Indonesia",
-  stack: ["Next.js", "Laravel", "Android Studio"]
-}`}
-            </pre>
-          </motion.div>
+          {/* Bagian Kanan: ID Card Interaktif yang Bisa Digeser */}
+          <div className="hidden md:block">
+            <IdCardLanyard />
+          </div>
         </section>
 
         {/* ABOUT & EDUCATION */}
