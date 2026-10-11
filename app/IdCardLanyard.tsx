@@ -121,8 +121,8 @@ export default function IdCardLanyard() {
 
           <div className="relative h-full w-full overflow-hidden rounded-lg bg-neutral-900">
             <Image
-              src="/rifqi.jpeg" // taruh foto kamu di public/rifqi.jpeg
-              alt="Rifqi Muhammad Aliya"
+              src="/bayu2.jpg" //  foto 
+              alt="Fauzan Bayu Samudra"
               fill
               priority
               draggable={false}

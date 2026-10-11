@@ -219,7 +219,7 @@ export default function Home() {
         {/* Navbar */}
         <nav className="flex justify-between items-center px-10 py-6 border-b border-gray-800 sticky top-0 bg-black/80 backdrop-blur-md z-40">
           <div className="flex items-center gap-3">
-            <Image src="/profile.jpg" width={40} height={40} className="rounded-full" alt="" />
+            <Image src="/bayu2.jpg" width={40} height={40} className="rounded-full" alt="" />
             <div>
               <h1 className="font-bold text-sm md:text-base">Fauzan Bayu Samudra</h1>
               <p className="text-xs text-blue-500">PORTOFOLIO</p>
