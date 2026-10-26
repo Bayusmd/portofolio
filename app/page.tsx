@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect, FormEvent, ChangeEvent } from "react";
+import { useState, useEffect, useRef, FormEvent, ChangeEvent, MouseEvent as ReactMouseEvent } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, animate, useInView, useMotionValue, useSpring, Variants } from "framer-motion";
 import Link from "next/link";
 import {
   FaLinkedinIn,
@@ -12,6 +12,7 @@ import {
   FaExternalLinkAlt,
   FaCode,
   FaTimes,
+  FaMapMarkerAlt,
 } from "react-icons/fa";
 import IdCardLanyard from "./IdCardLanyard";
 import Navbar from "./Navbar";
@@ -19,7 +20,7 @@ import Navbar from "./Navbar";
 // Data dummy untuk workexperience Projects, Certificates, dan Tech Stack
 const workExperiences = [
   {
-    role: "Full-stack Web Developer Intern (Intership)",
+    role: "Full-Stack Web Developer Intern (Intership)",
     company: "Dinas Komunikasi Dan Informatika Kabupaten Karanganyar",
     period: "Feb 2025 - Apr 2025",
     logo: "/work/diskominfo.png", // Letakkan gambar logo di folder public/
@@ -140,6 +141,177 @@ const techStackData = [
   
   
 ];
+
+
+const educationData = [
+  {
+    logo: "/ums.png",
+    title: "S1 Teknik Informatika",
+    subtitle: "Universitas Muhammadiyah Surakarta",
+    period: "2022 - 2026",
+    extra: "IPK 3.81",
+  },
+  {
+    logo: "/sma.png",
+    title: "MIPA",
+    subtitle: "SMAN Jumapolo",
+    period: "2018 - 2021",
+  },
+];
+
+const aboutContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12 } },
+};
+
+const aboutItem: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+};
+
+// Angka yang berhitung naik dari 0
+function CountUp({ to, decimals = 0, suffix = "" }: { to: number; decimals?: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true });
+
+  useEffect(() => {
+    if (!inView) return;
+    const controls = animate(0, to, {
+      duration: 1.6,
+      ease: "easeOut",
+      onUpdate: (v) => {
+        if (ref.current) ref.current.textContent = v.toFixed(decimals) + suffix;
+      },
+    });
+    return () => controls.stop();
+  }, [inView, to, decimals, suffix]);
+
+  return <span ref={ref}>{(0).toFixed(decimals) + suffix}</span>;
+}
+
+type TimelineEntry = {
+  logo: string;
+  title: string;
+  subtitle: string;
+  period: string;
+  description?: string;
+  extra?: string;
+};
+
+// Timeline vertikal dengan logo di setiap item
+function Timeline({ items }: { items: TimelineEntry[] }) {
+  return (
+    <div className="relative pl-8">
+      {/* Garis yang menggambar diri dari atas */}
+      <motion.div
+        initial={{ scaleY: 0 }}
+        whileInView={{ scaleY: 1 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+        style={{ originY: 0 }}
+        className="absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-blue-500 to-blue-500/10"
+      />
+
+      <div className="space-y-4">
+        {items.map((it, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ delay: i * 0.15, duration: 0.5 }}
+            className="relative"
+          >
+            {/* Titik penanda */}
+            <span className="absolute -left-8 top-6 h-3.5 w-3.5 rounded-full bg-blue-500 ring-4 ring-black" />
+
+            <motion.div
+              whileHover={{ y: -3 }}
+              className="flex items-start gap-4 rounded-xl border border-gray-800 bg-zinc-900/60 p-4 transition-colors hover:border-blue-500/50"
+            >
+              {/* Logo */}
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-gray-800">
+                <Image src={it.logo} alt={`Logo ${it.subtitle}`} width={36} height={36} className="object-contain" />
+              </div>
+
+              <div className="min-w-0 flex-1">
+                <h4 className="text-sm font-bold md:text-base">{it.title}</h4>
+                <p className="text-xs text-gray-400 md:text-sm">{it.subtitle}</p>
+
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  <span className="rounded-full border border-blue-500/20 bg-blue-500/10 px-2.5 py-0.5 text-xs font-medium text-blue-400">
+                    {it.period}
+                  </span>
+                  {it.extra && (
+                    <span className="rounded-full border border-yellow-500/20 bg-yellow-500/10 px-2.5 py-0.5 text-xs font-medium text-yellow-400">
+                      ⭐ {it.extra}
+                    </span>
+                  )}
+                </div>
+
+                {it.description && (
+                  <p className="mt-3 text-xs leading-relaxed text-gray-500">{it.description}</p>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// Foto dengan efek miring mengikuti kursor + badge melayang
+function TiltPhoto() {
+  const rx = useMotionValue(0);
+  const ry = useMotionValue(0);
+  const rotateX = useSpring(rx, { stiffness: 150, damping: 15 });
+  const rotateY = useSpring(ry, { stiffness: 150, damping: 15 });
+
+  const onMove = (e: ReactMouseEvent<HTMLDivElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    ry.set(px * 14);
+    rx.set(-py * 14);
+  };
+  const reset = () => {
+    rx.set(0);
+    ry.set(0);
+  };
+
+  return (
+    <div style={{ perspective: 1000 }} onMouseMove={onMove} onMouseLeave={reset} className="group">
+      <motion.div style={{ rotateX, rotateY }} className="relative w-fit">
+        <Image
+          src="/bayu.jpeg"
+          width={300}
+          height={400}
+          alt="Fauzan Bayu"
+          className="h-auto w-64 rounded-xl object-cover shadow-xl md:w-[300px]"
+        />
+        <div className="absolute inset-0 -z-10 translate-x-4 translate-y-4 rounded-xl border-2 border-blue-500 transition-transform duration-300 group-hover:translate-x-6 group-hover:translate-y-6" />
+
+        {/* Badge melayang */}
+        <motion.span
+          animate={{ y: [0, -8, 0] }}
+          transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+          className="absolute -left-3 top-8 z-10 flex items-center gap-2 whitespace-nowrap rounded-full border border-zinc-700 bg-zinc-900/90 px-3 py-1.5 text-xs text-gray-200 backdrop-blur md:-left-8"
+        >
+          <FaCode className="text-blue-400" size={12} /> Fullstack Dev
+        </motion.span>
+        <motion.span
+          animate={{ y: [0, 8, 0] }}
+          transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
+          className="absolute -right-2 bottom-12 z-10 flex items-center gap-2 whitespace-nowrap rounded-full border border-zinc-700 bg-zinc-900/90 px-3 py-1.5 text-xs text-gray-200 backdrop-blur md:-right-8"
+        >
+          <FaMapMarkerAlt className="text-blue-400" size={12} /> Karanganyar
+        </motion.span>
+      </motion.div>
+    </div>
+  );
+}
+
 
 const roles = [
   "Fullstack Web Developer",
@@ -399,25 +571,6 @@ export default function Home() {
               ))}
             </motion.div>
             
-            {/* Statistik singkat */}
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                show: { opacity: 1, y: 0 },
-              }}
-              className="mt-10 flex gap-8 border-t border-gray-800 pt-6"
-            >
-              {[
-                { value: "3.81", label: "IPK" },
-                { value: "7+", label: "Projects" },
-                { value: "2", label: "Pengalaman" },
-              ].map((s) => (
-                <div key={s.label}>
-                  <p className="text-2xl font-bold text-white">{s.value}</p>
-                  <p className="text-xs text-gray-500">{s.label}</p>
-                </div>
-              ))}
-            </motion.div>
           </motion.div>
 
 
@@ -429,113 +582,99 @@ export default function Home() {
         </section>
 
         {/* ABOUT & EDUCATION */}
-        <section id="about" className="scroll-mt-24 px-10 py-20 grid md:grid-cols-2 gap-10 items-start">
-          <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-            <p className="text-blue-500 text-sm mb-2 font-semibold">ABOUT ME</p>
-            <h2 className="text-4xl font-bold mb-6">Tentang Saya</h2>
+        <section
+          id="about"
+          className="scroll-mt-24 grid items-start gap-12 px-6 py-20 md:grid-cols-2 md:gap-10 md:px-10"
+        >
+          {/* KIRI: teks, statistik, timeline */}
+          <motion.div
+            variants={aboutContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.1 }}
+            className="order-last md:order-first"
+          >
+            <motion.p variants={aboutItem} className="mb-2 text-sm font-semibold text-blue-500">
+              ABOUT ME
+            </motion.p>
 
-            <p className="text-gray-400 mb-4 leading-relaxed">
-              Saya lulusan S1 Teknik Informatika dari Universitas Muhammadiyah Surakarta dengan keahlian 
-              pengembangan sistem digital berbasis web dan dukungan IT. Saya adalah 
-              seorang <b> Full Stack Web Developer</b> yang fokus pada pembuatan 
-              aplikasi modern dari frontend hingga backend.
-            </p>
+            <motion.h2 variants={aboutItem} className="text-4xl font-bold">
+              Tentang Saya
+            </motion.h2>
+            <motion.div
+              initial={{ width: 0 }}
+              whileInView={{ width: 48 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+              className="mb-6 mt-3 h-[3px] rounded-full bg-blue-600"
+            />
 
-            <p className="text-gray-400 mb-6 leading-relaxed">
+            <motion.p variants={aboutItem} className="mb-4 leading-relaxed text-gray-400">
+              Saya lulusan S1 Teknik Informatika dari Universitas Muhammadiyah Surakarta
+              dengan keahlian pengembangan sistem digital berbasis web dan dukungan IT.
+              Saya adalah seorang{" "}
+              <span className="font-medium text-blue-400">Full Stack Web Developer</span>{" "}
+              yang fokus pada pembuatan aplikasi modern dari frontend hingga backend.
+            </motion.p>
+
+            <motion.p variants={aboutItem} className="mb-8 leading-relaxed text-gray-400">
               Berpengalaman dalam membangun website dinamis, API, dan aplikasi mobile
-              menggunakan teknologi modern dengan pemahaman yang kuat tentang teknologi web 
-              menggunakan Laravel dan WordPress, serta berpengalaman dalam instalasi dan 
-              troubleshooting perangkat lunak. 
-            </p>
+              menggunakan teknologi modern dengan pemahaman yang kuat tentang teknologi
+              web menggunakan <span className="font-medium text-blue-400">Laravel</span>{" "}
+              dan <span className="font-medium text-blue-400">WordPress</span>, serta
+              berpengalaman dalam instalasi dan troubleshooting perangkat lunak.
+            </motion.p>
 
-            <div className="flex gap-4 flex-wrap mb-8">
-              <div className="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600/20 to-transparent border border-blue-500/30 text-sm">
-                📍 Karanganyar, Jawa Tengah
-              </div>
-            </div>
-
-            {/* Education Sub-section */}
-            <h3 className="text-xl font-bold mb-4 text-gray-200">Pendidikan</h3>
-            <div className="space-y-4">
-              <div className="p-4 rounded-lg bg-gradient-to-r from-blue-600/20 to-transparent border border-blue-500/30 flex justify-between items-center">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-800">
-                    <Image src="/ums.png" alt="Logo UMS" width={32} height={32} className="object-contain" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-sm md:text-base">S1 Teknik Informatika</h4>
-                    <p className="text-xs md:text-sm text-gray-400">Universitas Muhammadiyah Surakarta</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className="text-blue-500 font-bold text-sm">2022 - 2026</p>
-                  <p className="text-xs text-gray-400">⭐ IPK 3.81</p>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-lg bg-gradient-to-r from-blue-600/20 to-transparent border border-blue-500/30 flex justify-between items-center">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-800">
-                    <Image src="/sma.png" alt="Logo SMAN Jumapolo" width={32} height={32} className="object-contain" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-sm md:text-base">MIPA</h4>
-                    <p className="text-xs md:text-sm text-gray-400">SMAN Jumapolo</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className="text-blue-500 font-bold text-sm">2018 - 2021</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Work Experience Sub-section */}
-            <h3 className="text-xl font-bold mt-10 mb-4 text-gray-200">Pengalaman Kerja</h3>
-            <div className="space-y-4">
-              {workExperiences.map((exp, idx) => (
+            {/* Statistik */}
+            <motion.div variants={aboutItem} className="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {[
+                { node: <CountUp to={3.81} decimals={2} />, label: "IPK" },
+                { node: <CountUp to={projectsData.length} suffix="+" />, label: "Projects" },
+                { node: <CountUp to={workExperiences.length} />, label: "Pengalaman" },
+                { node: <span>S1</span>, label: "Informatika" },
+              ].map((s) => (
                 <div
-                  key={idx}
-                  className="p-4 rounded-lg bg-gradient-to-r from-blue-600/20 to-transparent border border-blue-500/30 flex justify-between items-center"
+                  key={s.label}
+                  className="rounded-xl border border-gray-800 bg-zinc-900/60 p-4 text-center transition-colors hover:border-blue-500/50"
                 >
-                  {/* KIRI: Logo & Detail */}
-                  <div className="flex items-center gap-4">
-                    {/* Logo Tempat Kerja */}
-                    <div className="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-800 shadow-md shrink-0">
-                      <Image
-                        src={exp.logo}
-                        alt={`Logo ${exp.company}`}
-                        width={36}
-                        height={36}
-                        className="object-contain"
-                      />
-                    </div>
-              
-                    {/* Text Role & Perusahaan */}
-                    <div>
-                      <h4 className="font-bold text-sm md:text-base">{exp.role}</h4>
-                      <p className="text-xs md:text-sm text-gray-400">{exp.company}</p>
-                      <p className="text-xs text-gray-500 mt-1 hidden md:block">
-                        {exp.description}
-                      </p>
-                    </div>
-                  </div>
-              
-                  {/* KANAN: Periode */}
-                  <div className="text-right whitespace-nowrap ml-4">
-                    <p className="text-blue-500 font-bold text-sm">{exp.period}</p>
-                  </div>
+                  <p className="text-2xl font-bold text-white">{s.node}</p>
+                  <p className="mt-1 text-xs text-gray-500">{s.label}</p>
                 </div>
               ))}
-            </div>
-
+            </motion.div>
+            
+            {/* Pendidikan */}
+            <motion.h3 variants={aboutItem} className="mb-4 text-xl font-bold text-gray-200">
+              Pendidikan
+            </motion.h3>
+            <Timeline items={educationData} />
+            
+            {/* Pengalaman kerja */}
+            <motion.h3 variants={aboutItem} className="mb-4 mt-10 text-xl font-bold text-gray-200">
+              Pengalaman Kerja
+            </motion.h3>
+            <Timeline
+              items={workExperiences.map((exp) => ({
+                logo: exp.logo,
+                title: exp.role,
+                subtitle: exp.company === "-" ? "Independen" : exp.company,
+                period: exp.period,
+                description: exp.description,
+              }))}
+            />
           </motion.div>
-
-          <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="flex justify-center">
-            <div className="relative w-fit">
-              <Image src="/bayu.jpeg" width={300} height={400} className="rounded-xl object-cover shadow-xl" alt="Fauzan Bayu" />
-              <div className="absolute inset-0 border-2 border-blue-500 rounded-xl translate-x-4 translate-y-4 -z-10"></div>
-            </div>
-          </motion.div>
+            
+          {/* KANAN: foto (di HP tampil paling atas, di desktop menempel saat scroll) */}
+          <div className="order-first flex justify-center md:order-last md:sticky md:top-28">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <TiltPhoto />
+            </motion.div>
+          </div>
         </section>
 
         {/* PORTFOLIO SHOWCASE SECTION (Projects, Certificates, Tech Stack) */}
