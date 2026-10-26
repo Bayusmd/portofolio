@@ -268,7 +268,7 @@ export default function Home() {
 
           {/* Komponen ID Card Lanyard Interaktif */}
             <div className="order-first md:order-last mt-20 md:mt-0 flex justify-center items-center w-full">
-              <IdCardLanyard />
+              <IdCardLanyard play={!isLoading} />
             </div>
         </section>
 

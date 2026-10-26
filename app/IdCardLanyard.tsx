@@ -19,7 +19,7 @@ const ANCHORS = [
   { x: 290, y: -80 }, // tali kanan
 ];
 
-export default function IdCardLanyard() {
+export default function IdCardLanyard({ play = true }: { play?: boolean }) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
   const [ready, setReady] = useState(false);
@@ -42,12 +42,20 @@ export default function IdCardLanyard() {
   }, []);
 
   const x = useMotionValue(0);
-  const y = useMotionValue(0);
+  const y = useMotionValue(-300); // mulai dari atas, tersembunyi
 
-  // Efek jatuh dari atas lalu memantul
+  // Efek jatuh + memantul, baru jalan saat play = true
   useEffect(() => {
-    animate(y, 0, { type: "spring", stiffness: 70, damping: 7, mass: 1.2 });
-  }, [y]);
+    if (!play) return;
+    const controls = animate(y, 0, {
+      type: "spring",
+      stiffness: 70,
+      damping: 7,
+      mass: 1.2,
+      delay: 0.3,
+    });
+    return () => controls.stop();
+  }, [play, y]);
 
   // Rotasi berayun mengikuti tarikan
   const rotateRaw = useTransform(x, [-200, 200], [-28, 28]);
