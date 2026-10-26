@@ -267,7 +267,7 @@ export default function Home() {
           </motion.div>
 
           {/* Komponen ID Card Lanyard Interaktif */}
-            <div className="hidden md:flex justify-center items-center h-full">
+            <div className="order-first md:order-last mt-20 md:mt-0 flex justify-center items-center w-full">
               <IdCardLanyard />
             </div>
         </section>

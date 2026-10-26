@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Fauzan Bayu Samudra",
-  description: "Website portofolio pribadi",
+  description: "Website portofolio",
    icons: {
     icon: "/logo.png",},
 };
