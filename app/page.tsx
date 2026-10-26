@@ -14,6 +14,7 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import IdCardLanyard from "./IdCardLanyard";
+import Navbar from "./Navbar";
 
 // Data dummy untuk workexperience Projects, Certificates, dan Tech Stack
 const workExperiences = [
@@ -265,31 +266,14 @@ export default function Home() {
 
       <main className="bg-black text-white min-h-screen">
         {/* Navbar */}
-        <nav className="flex justify-between items-center px-10 py-6 border-b border-gray-800 sticky top-0 bg-black/80 backdrop-blur-md z-40">
-          <div className="flex items-center gap-3">
-            <Image src="/bayu2.jpg" width={40} height={40} className="rounded-full" alt="" />
-            <div>
-              <h1 className="font-bold text-sm md:text-base">Fauzan Bayu Samudra</h1>
-              <p className="text-xs text-blue-500">PORTOFOLIO</p>
-            </div>
-          </div>
+        <Navbar show={!isLoading} />
 
-          <div className="hidden md:flex gap-6 text-sm text-gray-400">
-            <a href="#home" className="hover:text-blue-500 transition">Home</a>
-            <a href="#about" className="hover:text-blue-500 transition">About</a>
-            <a href="#showcase" className="hover:text-blue-500 transition">Portfolio</a>
-            <a href="#contact" className="hover:text-blue-500 transition">Contact</a>
-          </div>
 
-          <a href="mailto:fauzanbayu123@gmail.com" className="bg-blue-600 px-5 py-2 rounded-lg hover:bg-blue-700 text-sm">
-            Contact Me
-          </a>
-        </nav>
 
         {/* Hero */}
         <section
           id="home"
-          className="relative grid md:grid-cols-2 items-center gap-10 px-6 md:px-10 py-20 md:py-28 overflow-hidden">
+          className="relative grid md:grid-cols-2 items-center gap-10 px-6 md:px-10 pt-32 pb-20 md:pt-36 md:pb-28 overflow-hidden">
           {/* Glow latar belakang */}
           <div className="pointer-events-none absolute -top-32 -left-32 h-96 w-96 rounded-full bg-blue-600/20 blur-3xl" />
           <div className="pointer-events-none absolute bottom-0 right-0 h-80 w-80 rounded-full bg-indigo-600/10 blur-3xl" />
@@ -445,7 +429,7 @@ export default function Home() {
         </section>
 
         {/* ABOUT & EDUCATION */}
-        <section id="about" className="px-10 py-20 grid md:grid-cols-2 gap-10 items-start">
+        <section id="about" className="scroll-mt-24 px-10 py-20 grid md:grid-cols-2 gap-10 items-start">
           <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
             <p className="text-blue-500 text-sm mb-2 font-semibold">ABOUT ME</p>
             <h2 className="text-4xl font-bold mb-6">Tentang Saya</h2>
@@ -555,7 +539,7 @@ export default function Home() {
         </section>
 
         {/* PORTFOLIO SHOWCASE SECTION (Projects, Certificates, Tech Stack) */}
-        <section id="showcase" className="px-10 py-20 border-t border-gray-800">
+        <section id="showcase" className="scroll-mt-24 px-10 py-20 border-t border-gray-800">
           <div className="max-w-6xl mx-auto text-center mb-10">
             <h2 className="text-4xl font-bold tracking-tight mb-2">Portfolio Showcase</h2>
             <p className="text-gray-400 text-sm md:text-base">
@@ -747,7 +731,7 @@ export default function Home() {
         )}
 
         {/* CONTACT SECTION */}
-        <section id="contact" className="py-28 px-6 border-t border-zinc-800">
+        <section id="contact" className="scroll-mt-24 py-28 px-6 border-t border-zinc-800">
           <div className="max-w-4xl mx-auto text-center">
             <p className="text-zinc-400 text-lg mb-4">Have a project in mind?</p>
             <h2 className="text-4xl md:text-6xl font-bold text-white leading-tight">
