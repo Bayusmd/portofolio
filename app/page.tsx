@@ -140,6 +140,48 @@ const techStackData = [
   
 ];
 
+const roles = [
+  "Fullstack Web Developer",
+  "Laravel Developer",
+  "UI/UX Designer",
+  "WordPress Developer",
+];
+
+function TypingRole() {
+  const [index, setIndex] = useState(0);
+  const [text, setText] = useState("");
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    const current = roles[index];
+    const speed = deleting ? 40 : 90;
+
+    const timer = setTimeout(() => {
+      if (!deleting) {
+        setText(current.slice(0, text.length + 1));
+        if (text.length + 1 === current.length) {
+          setTimeout(() => setDeleting(true), 1400);
+        }
+      } else {
+        setText(current.slice(0, text.length - 1));
+        if (text.length - 1 === 0) {
+          setDeleting(false);
+          setIndex((i) => (i + 1) % roles.length);
+        }
+      }
+    }, speed);
+
+    return () => clearTimeout(timer);
+  }, [text, deleting, index]);
+
+  return (
+    <span>
+      <span className="text-blue-400">{text}</span>
+      <span className="ml-0.5 animate-pulse text-blue-400">|</span>
+    </span>
+  );
+}
+
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -245,26 +287,156 @@ export default function Home() {
         </nav>
 
         {/* Hero */}
-        <section id="home" className="grid md:grid-cols-2 items-center px-10 py-20">
-          <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }}>
-            <p className="text-blue-500 text-sm mb-2 font-semibold">FULLSTACK WEB DEVELOPER</p>
-            <h1 className="text-5xl md:text-6xl font-bold leading-tight">
-              <span className="text-blue-500">Fauzan</span> Bayu <span className="text-blue-500">Samudra</span>
-            </h1>
-            <p className="mt-4 text-gray-400 max-w-md">
-              Saya seorang web developer yang fokus pada performa, desain modern, dan hasil nyata.
-            </p>
+        <section
+          id="home"
+          className="relative grid md:grid-cols-2 items-center gap-10 px-6 md:px-10 py-20 md:py-28 overflow-hidden">
+          {/* Glow latar belakang */}
+          <div className="pointer-events-none absolute -top-32 -left-32 h-96 w-96 rounded-full bg-blue-600/20 blur-3xl" />
+          <div className="pointer-events-none absolute bottom-0 right-0 h-80 w-80 rounded-full bg-indigo-600/10 blur-3xl" />
 
-            <div className="mt-6 flex gap-4">
-              <a href="#showcase" className="bg-blue-600 px-6 py-3 rounded-lg hover:bg-blue-700 text-sm font-medium">
+          <motion.div
+            className="relative z-10"
+            initial="hidden"
+            animate={!isLoading ? "show" : "hidden"}
+            variants={{
+              hidden: {},
+              show: { transition: { staggerChildren: 0.15, delayChildren: 0.2 } },
+            }}
+          >
+            {/* Badge status */}
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                show: { opacity: 1, y: 0 },
+              }}
+              className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 mb-5"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
+              </span>
+              <span className="text-xs font-semibold text-blue-300">
+                Open for Freelance & Work
+              </span>
+            </motion.div>
+            
+            {/* Judul */}
+            <motion.h1
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                show: { opacity: 1, y: 0 },
+              }}
+              className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight"
+            >
+              <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+                Fauzan
+              </span>{" "}
+              Bayu
+              <br />
+              <span className="bg-gradient-to-r from-blue-600 to-indigo-400 bg-clip-text text-transparent">
+                Samudra
+              </span>
+            </motion.h1>
+            
+            {/* Teks berganti otomatis */}
+            <motion.p
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                show: { opacity: 1, y: 0 },
+              }}
+              className="mt-4 text-lg md:text-xl font-semibold text-gray-200 h-8"
+            >
+              <TypingRole />
+            </motion.p>
+            
+            {/* Deskripsi */}
+            <motion.p
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                show: { opacity: 1, y: 0 },
+              }}
+              className="mt-4 text-gray-400 max-w-md leading-relaxed"
+            >
+              Saya seorang web developer yang fokus pada performa, desain modern, dan
+              hasil nyata.
+            </motion.p>
+            
+            {/* Tombol */}
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                show: { opacity: 1, y: 0 },
+              }}
+              className="mt-8 flex flex-wrap gap-4"
+            >
+              <motion.a
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                href="#showcase"
+                className="bg-blue-600 px-6 py-3 rounded-lg hover:bg-blue-700 text-sm font-medium shadow-lg shadow-blue-600/30"
+              >
                 Lihat Portfolio
-              </a>
-              <a href="/cv/Fauzan-Bayu-Samudra-CV.pdf"
-                download="Fauzan-Bayu-Samudra-CV.pdf" className="border border-gray-600 px-6 py-3 rounded-lg hover:border-blue-500 text-sm font-medium">
+              </motion.a>
+              <motion.a
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                href="/cv/Fauzan-Bayu-Samudra-CV.pdf"
+                download="Fauzan-Bayu-Samudra-CV.pdf"
+                className="border border-gray-600 px-6 py-3 rounded-lg hover:border-blue-500 hover:text-blue-400 text-sm font-medium"
+              >
                 Download CV
-              </a>
-            </div>
+              </motion.a>
+            </motion.div>
+            
+            {/* Social icons */}
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                show: { opacity: 1, y: 0 },
+              }}
+              className="mt-8 flex items-center gap-3"
+            >
+              <span className="text-xs text-gray-500 mr-1">Find me on</span>
+              {[
+                { icon: <FaGithub size={16} />, href: "https://github.com/Bayusmd" },
+                { icon: <FaLinkedinIn size={16} />, href: "https://www.linkedin.com/in/fauzan-bayu-samudra-3061a1440" },
+                { icon: <FaInstagram size={16} />, href: "https://www.instagram.com/bayu_samudra.id" },
+              ].map((s, i) => (
+                <motion.a
+                  key={i}
+                  whileHover={{ y: -3 }}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-800 text-gray-400 hover:border-blue-500 hover:text-blue-400 transition"
+                >
+                  {s.icon}
+                </motion.a>
+              ))}
+            </motion.div>
+            
+            {/* Statistik singkat */}
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                show: { opacity: 1, y: 0 },
+              }}
+              className="mt-10 flex gap-8 border-t border-gray-800 pt-6"
+            >
+              {[
+                { value: "3.81", label: "IPK" },
+                { value: "7+", label: "Projects" },
+                { value: "2", label: "Pengalaman" },
+              ].map((s) => (
+                <div key={s.label}>
+                  <p className="text-2xl font-bold text-white">{s.value}</p>
+                  <p className="text-xs text-gray-500">{s.label}</p>
+                </div>
+              ))}
+            </motion.div>
           </motion.div>
+
+
 
           {/* Komponen ID Card Lanyard Interaktif */}
             <div className="order-first md:order-last mt-20 md:mt-0 flex justify-center items-center w-full">
